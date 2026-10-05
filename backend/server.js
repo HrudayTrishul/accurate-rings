@@ -12,7 +12,7 @@ async function start(){
   const mode=process.env.APP_MODE==='mysql'?'mysql':'demo';
   const dataDirectory=process.env.DATA_DIR||path.join(__dirname,'.data');
   let secret=process.env.JWT_SECRET||'';
-  if(!secret&&mode==='demo'){
+  if(secret.length<32&&mode==='demo'){
     await fs.mkdir(dataDirectory,{recursive:true});const secretFile=path.join(dataDirectory,'session-secret');
     try{secret=await fs.readFile(secretFile,'utf8');}catch(error){if(error.code!=='ENOENT')throw error;secret=crypto.randomBytes(48).toString('hex');try{await fs.writeFile(secretFile,secret,{flag:'wx',mode:0o600});}catch(error){if(error.code!=='EEXIST')throw error;secret=await fs.readFile(secretFile,'utf8');}}
   }

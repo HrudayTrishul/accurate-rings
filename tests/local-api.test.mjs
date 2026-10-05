@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { once } from 'node:events';
 async function start(directory){
- const child=spawn(process.execPath,['backend/server.js'],{env:{...process.env,APP_MODE:'demo',DATA_DIR:directory,PORT:'0',HOST:'127.0.0.1',JWT_SECRET:''},stdio:['ignore','pipe','pipe']});
+ const child=spawn(process.execPath,['backend/server.js'],{env:{...process.env,APP_MODE:'demo',DATA_DIR:directory,PORT:'0',HOST:'127.0.0.1',JWT_SECRET:'legacy-demo-secret'},stdio:['ignore','pipe','pipe']});
  const url=await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('Server start timed out')),15000);child.stdout.on('data',data=>{const m=data.toString().match(/127\.0\.0\.1:(\d+)/);if(m){clearTimeout(timer);resolve('http://127.0.0.1:'+m[1]);}});child.once('exit',code=>{clearTimeout(timer);reject(new Error('Server exited '+code));});});
  return{child,url,async stop(){child.kill();await once(child,'exit');}};
 }
