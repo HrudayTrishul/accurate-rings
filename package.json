@@ -1,0 +1,25 @@
+{
+  "name": "accurate-rings",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": ["frontend", "backend"],
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "start": "npm run start --workspace backend",
+    "lint": "npm run lint --workspace frontend",
+    "test": "node scripts/test.mjs",
+    "check": "npm run lint && npm test && npm run build",
+    "db:generate": "drizzle-kit generate",
+    "db:init": "node backend/scripts/init-db.cjs",
+    "user:create": "node backend/scripts/create-user.cjs"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.0",
+    "drizzle-orm": "^0.45.3",
+    "esbuild": "^0.25.12"
+  },
+  "overrides": { "esbuild": "$esbuild" }
+}

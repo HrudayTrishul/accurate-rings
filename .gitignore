@@ -1,0 +1,17 @@
+node_modules/
+dist/
+frontend/dist/
+.env
+.env.*
+!.env.example
+!.env.production.example
+.data/
+.wrangler/
+.sites-runtime/
+.unlazy/
+GATES.md
+playwright-report/
+test-results/
+*.log
+*.zip
+*.tar.gz

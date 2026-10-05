@@ -1,0 +1,6 @@
+export const count=value=>Number(value||0).toLocaleString('en-IN');
+export const rupees=value=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number(value||0));
+export const shortMoney=value=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',notation:'compact',maximumFractionDigits:1}).format(Number(value||0));
+export const label=value=>(value||'pending').replaceAll('_',' ').replace(/\b\w/g,c=>c.toUpperCase());
+export function date(value){if(!value)return '—';return new Date(value.length===10?value+'T12:00:00':value).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
+export function exportCSV(name,columns,rows){const cell=value=>{let v=String(value??'');if(/^[=+@-]/.test(v))v="'"+v;return '"'+v.replaceAll('"','""')+'"';};const csv=[columns.map(c=>cell(c.label)).join(','),...rows.map(row=>columns.map(c=>cell(typeof c.value==='function'?c.value(row):row[c.value])).join(','))].join('\r\n');const url=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}));const link=document.createElement('a');link.href=url;link.download='accurate-rings-'+name+'.csv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
